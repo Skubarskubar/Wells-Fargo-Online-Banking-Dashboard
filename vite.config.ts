@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/Wells-Fargo-Online-Banking-Dashboard/',
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: {
