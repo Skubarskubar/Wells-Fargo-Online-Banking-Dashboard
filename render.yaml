@@ -1,0 +1,42 @@
+# Render Blueprint — deploys the app as a free, CDN-served static site.
+#
+# Deploy: Render Dashboard → New → Blueprint → select this repo.
+# Render reads this file and provisions everything below automatically.
+#
+# Note: the build uses vite-plugin-singlefile, so `npm run build` emits one
+# self-contained dist/index.html (JS + CSS inlined). That file is all this
+# static site needs to serve.
+
+services:
+  - type: web
+    name: wellfargo-online-banking
+    runtime: static
+
+    # No package-lock.json is committed, so use `npm install` (not `npm ci`).
+    buildCommand: npm install && npm run build
+
+    # Directory that `npm run build` writes to.
+    staticPublishPath: ./dist
+
+    branch: main
+    autoDeploy: true
+
+    # Single-page app: send every path to index.html so refresh and direct
+    # links don't 404. (This app navigates via state, so this is a safety net.)
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    # The whole app is one inlined HTML file. Don't let the CDN cache it
+    # long-term, or users would keep getting the previous deploy after a push.
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache, must-revalidate
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
