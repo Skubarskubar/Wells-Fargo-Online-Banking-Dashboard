@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  /* Wells Fargo uses a proprietary sans (Wells Fargo Sans) with a classic
+     serif for the wordmark and headings. These stacks mirror them closely. */
+  --font-sans: 'Helvetica Neue', 'Arial', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Georgia', 'Times New Roman', 'Playfair Display', serif;
+  --color-wf-red: #B24A3B;
+  --color-wf-red-deep: #9c3e31;
+  --color-wf-gold: #EAAA00;
+  --color-wf-ink: #1e1e1e;
+  --color-wf-surface: #f2f0ec;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: #1e1e1e;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Wordmark + headings render in the classic serif */
+.font-serif { font-family: var(--font-serif); }
+
+/* Subtle background pattern */
+.wf-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(900px 500px at 10% -5%, rgba(215, 30, 40, 0.05), transparent 60%),
+    radial-gradient(800px 400px at 90% 5%, rgba(255, 204, 0, 0.06), transparent 60%),
+    linear-gradient(#faf8f5, #f3efe9);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blinkSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.animate-fade-in { animation: fadeIn 0.22s ease-out both; }
+.animate-slide-down { animation: slideDown 0.25s cubic-bezier(.2,.8,.2,1) both; }
+.animate-blink { animation: blinkSoft 1.5s ease-in-out infinite; }
+
+.num { font-variant-numeric: tabular-nums; }
